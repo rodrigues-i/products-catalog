@@ -1,19 +1,23 @@
 package com.proj.products.resources;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proj.products.dto.CategoryDTO;
+import com.proj.products.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
+	@Autowired
+	CategoryService service;
 
 	@GetMapping
-	public ResponseEntity<CategoryDTO> findAll()
-	{
+	public ResponseEntity<CategoryDTO> findAll() {
+
 		CategoryDTO dto = new CategoryDTO(1L, "gardening");
 
 		return ResponseEntity.ok().body(dto);
