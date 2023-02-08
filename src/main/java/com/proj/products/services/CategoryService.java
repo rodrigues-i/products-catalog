@@ -1,6 +1,8 @@
 package com.proj.products.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.proj.products.dto.CategoryDTO;
@@ -12,10 +14,8 @@ public class CategoryService {
 	@Autowired
 	CategoryRepository repository;
 
-	public CategoryDTO findAll()
-	{
-		Category entity = new Category(1L, "gardening");
-
-		return new CategoryDTO(entity);
+	public Page<CategoryDTO> findAllPaged(Pageable pageable) {
+		Page<Category> list = repository.findAll(pageable);
+		return list.map(cat -> new CategoryDTO(cat));
 	}
 }

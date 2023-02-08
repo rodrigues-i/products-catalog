@@ -1,6 +1,8 @@
 package com.proj.products.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +18,9 @@ public class CategoryResource {
 	CategoryService service;
 
 	@GetMapping
-	public ResponseEntity<CategoryDTO> findAll() {
+	public ResponseEntity<Page<CategoryDTO>> findAllPaged(Pageable pageable) {
 
-		CategoryDTO dto = new CategoryDTO(1L, "gardening");
+		Page<CategoryDTO> dto = service.findAllPaged(pageable);
 
 		return ResponseEntity.ok().body(dto);
 	}
