@@ -1,5 +1,7 @@
 package com.proj.products.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,5 +19,10 @@ public class CategoryService {
 	public Page<CategoryDTO> findAllPaged(Pageable pageable) {
 		Page<Category> list = repository.findAll(pageable);
 		return list.map(cat -> new CategoryDTO(cat));
+	}
+
+	public CategoryDTO findById(Long id) {
+		Optional<Category> obj = repository.findById(id);
+		return new CategoryDTO(obj.get());
 	}
 }
