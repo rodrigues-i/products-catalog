@@ -2,6 +2,8 @@ package com.proj.products.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -50,8 +52,18 @@ public class CategoryService {
 			;
 			entity = repository.save(entity);
 			return new CategoryDTO(entity);
-		} catch (EmptyResultDataAccessException e) {
+		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Entity not found " + id);
 		}
+	}
+
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+			
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Entity not found " + id);
+		}
+		
 	}
 }
