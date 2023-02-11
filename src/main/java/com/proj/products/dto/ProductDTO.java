@@ -1,9 +1,10 @@
-package com.proj.products.entities;
+package com.proj.products.dto;
 
 import java.io.Serializable;
-import java.util.Objects;
 
-public class Product implements Serializable {
+import com.proj.products.entities.Product;
+
+public class ProductDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
@@ -12,16 +13,24 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgUrl;
 
-	public Product() {
+	public ProductDTO() {
 	}
 
-	public Product(Long id, String name, String description, Double price, String imgUrl) {
+	public ProductDTO(Long id, String name, String description, Double price, String imgUrl) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.imgUrl = imgUrl;
+	}
+
+	public ProductDTO(Product entity) {
+		this.id = entity.getId();
+		this.name = entity.getName();
+		this.description = entity.getDescription();
+		this.price = entity.getPrice();
+		this.imgUrl = entity.getImgUrl();
 	}
 
 	public Long getId() {
@@ -64,20 +73,4 @@ public class Product implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
-	}
 }
