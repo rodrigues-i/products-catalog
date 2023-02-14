@@ -30,4 +30,15 @@ public class ProductService {
 		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found " + id));
 		return new ProductDTO(entity);
 	}
+
+	public ProductDTO insert(ProductDTO dto) {
+		Product entity = new Product();
+		entity.setName(dto.getName());
+		entity.setDescription(dto.getDescription());;
+		entity.setImgUrl(dto.getImgUrl());
+		entity.setPrice(dto.getPrice());
+		
+		entity = repository.save(entity);
+		return new ProductDTO(entity);
+	}
 }
