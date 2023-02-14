@@ -2,6 +2,8 @@ package com.proj.products.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,13 +26,15 @@ public class ProductService {
 		return page.map((prod) -> new ProductDTO(prod));
 
 	}
-
+	
+	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
 		Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found " + id));
 		return new ProductDTO(entity);
 	}
 
+	@Transactional
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
 		entity.setName(dto.getName());
@@ -40,5 +44,22 @@ public class ProductService {
 		
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
+	}
+	
+	@Transactional
+	public ProductDTO update(Long id, ProductDTO dto) {
+		try {
+			Product entity = repository.getOne(id);
+			entity.setDescription(dto.getDescription());
+			entity.setName(dto.getName());
+			entity.setImgUrl(dto.getImgUrl());
+			entity.setPrice(dto.getPrice());
+			
+			entity = repository.save(entity);
+			return new ProductDTO(entity);
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Entity not found " + id);
+		}
+		
 	}
 }
